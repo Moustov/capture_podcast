@@ -30,6 +30,7 @@ def replace_special_chars(res):
     res = res.replace(r"\xc3\x89", "É")
     res = res.replace(r"\xc3\xa0", " ")
     res = res.replace(r"\xc2\xa0", "?")
+    res = res.replace(r"\xc5\x92", "Œ")
     res = res.replace(r"\xc3\x", "_")
     res = res.replace(r"/", "_")
     res = res.replace(r":", "_")
@@ -60,13 +61,17 @@ def get_episode_name(p):
 def get_title(p):
     res = ""
     serie = ""
-    s = p.split("title")
-    if len(s) > 1:
-        serie = s[1].split('"')[2]
-        res = serie.replace("\\\\", "")
-        res = replace_special_chars(res)
-    else:
-        res = "_"
+    try:
+        s = p.split("title")
+        if len(s) > 1:
+            serie = s[1].split('"')[2]
+            res = serie.replace("\\\\", "")
+            res = replace_special_chars(res)
+        else:
+            res = "_"
+    except:
+        podcast = p.split(".mp3")
+        res = podcast[0]
     return res
 
 
